@@ -14,6 +14,7 @@ import "./SecureApp.css";
 import DataEntry from "../dataEntryApp/DataEntry";
 import CreateEditConcept from "../formDesigner/components/CreateEditConcept";
 import Homepage from "../formDesigner/components/Homepage";
+import { Translations } from "../translations";
 const RestrictedRoute = ({ component: C, allowedRoles, currentUserRoles, ...rest }) => (
   <Route
     {...rest}
@@ -91,6 +92,13 @@ const Routes = props => (
       allowedRoles={[ROLES.ORG_ADMIN]}
       currentUserRoles={props.userRoles}
       component={Concept}
+    />
+    <RestrictedRoute
+      exact
+      path="/translations"
+      allowedRoles={[ROLES.ORG_ADMIN]}
+      currentUserRoles={props.userRoles}
+      component={Translations}
     />
     <RestrictedRoute
       exact

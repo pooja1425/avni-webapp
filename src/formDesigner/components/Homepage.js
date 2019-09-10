@@ -64,6 +64,24 @@ const Homepage = () => {
             </Typography>
           </Card>
         </CardActionArea>
+
+        <CardActionArea style={classes.cardArea} href="/#/translations">
+          <Card style={classes.card} raised={true}>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom />
+              <Typography align="center" color="primary" />
+            </CardContent>
+            <Typography
+              variant="h5"
+              component="h2"
+              align="center"
+              color="primary"
+              style={{ marginTop: 30 }}
+            >
+              Translations
+            </Typography>
+          </Card>
+        </CardActionArea>
       </Grid>
     </ScreenWithAppBar>
   );
