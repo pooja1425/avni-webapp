@@ -3,7 +3,7 @@ import { includes, intersection, isEmpty } from "lodash";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { AccessDenied, WithProps } from "../common/components/utils";
-import { OrgManager } from "../adminApp";
+import { OrgManager, SuperAdmin } from "../adminApp";
 import { ROLES, withoutDataEntry } from "../common/constants";
 import "./SecureApp.css";
 import DataEntry from "../dataEntryApp/DataEntry";
@@ -24,16 +24,34 @@ const RestrictedRoute = ({ component: C, allowedRoles, currentUserRoles, ...rest
   />
 );
 
+const AdminApp = ({ roles }) => {
+  if (includes(roles, ROLES.ADMIN)) {
+    return (
+      <Route path="/admin">
+        <RestrictedRoute
+          path="/"
+          allowedRoles={[ROLES.ADMIN]}
+          currentUserRoles={roles}
+          component={SuperAdmin}
+        />
+      </Route>
+    );
+  } else
+    return (
+      <Route path="/admin">
+        <RestrictedRoute
+          path="/"
+          allowedRoles={[ROLES.ORG_ADMIN]}
+          currentUserRoles={roles}
+          component={OrgManager}
+        />
+      </Route>
+    );
+};
+
 const Routes = ({ user, organisation }) => (
   <Switch>
-    <Route path="/admin">
-      <RestrictedRoute
-        path="/"
-        allowedRoles={[ROLES.ORG_ADMIN]}
-        currentUserRoles={user.roles}
-        component={OrgManager}
-      />
-    </Route>
+    <AdminApp roles={user.roles} />
     <RestrictedRoute
       path="/app"
       allowedRoles={[ROLES.USER]}
@@ -76,14 +94,7 @@ const Routes = ({ user, organisation }) => (
 
 const RoutesWithoutDataEntry = ({ user }) => (
   <Switch>
-    <Route path="/admin">
-      <RestrictedRoute
-        path="/"
-        allowedRoles={[ROLES.ORG_ADMIN]}
-        currentUserRoles={user.roles}
-        component={OrgManager}
-      />
-    </Route>
+    <AdminApp roles={user.roles} />
     <Route exact path="/">
       <Redirect to="/admin" />
     </Route>
