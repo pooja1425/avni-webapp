@@ -192,7 +192,10 @@ const Export = ({
     );
   };
 
-  const sideBarOptions = [{ href: "#/export", name: "Longitudinal Export", Icon: DescriptionIcon }];
+  const sideBarOptions = [
+    { href: "#/export", name: "Longitudinal Export", Icon: DescriptionIcon },
+    { href: "#/export/reportadmin", name: "Report Admin", Icon: DescriptionIcon }
+  ];
 
   const enableReportGeneration = () => {
     switch (reportType.name) {
